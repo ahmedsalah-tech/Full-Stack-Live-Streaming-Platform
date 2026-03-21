@@ -1,105 +1,110 @@
-# Twitch Clone
+# Twitch.tv Clone
+[![Ask DeepWiki](https://devin.ai/assets/askdeepwiki.png)](https://deepwiki.com/ahmedsalah-tech/Twitch-tv-Clone)
 
-**This is an ongoing project and is not yet complete.**
+This is a full-stack clone of Twitch.tv built with the MERN stack. The project aims to replicate core features of the popular streaming platform, including real-time video streaming, live chat, and user channel management.
 
-This is a full-stack Twitch clone project built with the MERN stack and other technologies.
+This project is currently in development.
 
 ## Features
 
-### Current Features
-
-* User authentication (Login/Register)
-* Browse channels
-* View individual channels
-* Follow/unfollow channels
-* Update user settings (password, channel details)
-
-### In Progress / Planned Features
-
-* **Real-time Streaming:** Building out the RTMP server to handle live video streams.
-* **Live Chat:** Developing a `socket.io` server for real-time chat functionality in channel views.
-* **Dashboard:** Enhancing the user dashboard with stream management tools.
-* **Notifications:** Implementing a notification system for when followed channels go live.
+- **User Authentication:** Secure registration and login functionality using JWT for session management.
+- **Browse Channels:** View a grid of all active channels.
+- **Channel Viewing:** Watch streams, view channel descriptions, and see user information.
+- **Follow System:** Users can follow and unfollow their favorite channels.
+- **User Dashboard:**
+    - **Channel Settings:** Update channel title, description, and avatar.
+    - **Password Management:** Change user account passwords.
+    - **Stream Key:** View a unique stream key for use with streaming software.
+- **Real-time Streaming:** An integrated RTMP server using `node-media-server` to handle incoming live video feeds.
+- **Live Chat:** (In Progress) A `socket.io` backend is set up to support real-time chat on channel pages.
 
 ## Tech Stack
 
-* **Frontend:** React, Vite, TypeScript, Axios
-* **Backend:** Node.js, Express, MongoDB, Mongoose
-* **Streaming:** Node Media Server (for RTMP)
-* **Real-time Communication:** Socket.io
+- **Frontend:** React, Vite, TypeScript, React Router, Axios, React Hot Toast
+- **Backend:** Node.js, Express.js, TypeScript
+- **Database:** MongoDB with Mongoose
+- **Real-time Streaming:** Node Media Server (RTMP)
+- **Authentication:** JWT (JSON Web Tokens), bcrypt.js
+- **Real-time Communication:** Socket.io (for chat)
+- **Validation:** Joi
 
 ## Getting Started
 
 ### Prerequisites
 
-* Node.js (v14 or later)
-* MongoDB instance (local or cloud)
-* `npm` or `yarn`
+- Node.js (v18 or later recommended)
+- npm (v8 or later)
+- A running MongoDB instance (local or cloud-based)
 
 ### Installation & Setup
 
-1. **Clone the repository:**
-
+1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/ahmedsalah-tech/Twitch.tv-Clone.git
-    cd twitch-clone
+    git clone https://github.com/ahmedsalah-tech/Twitch-tv-Clone.git
+    cd Twitch-tv-Clone
     ```
 
-2. **Install root dependencies:**
-
+2.  **Install Root Dependencies:**
+    This installs `concurrently` to run multiple services at once.
     ```bash
     npm install
     ```
 
-3. **Install server dependencies:**
+3.  **Set up the Server:**
+    - Navigate to the `server` directory:
+      ```bash
+      cd server
+      ```
+    - Create a `.env` file by copying the example:
+      ```bash
+      cp .env.example .env
+      ```
+    - Edit the `.env` file with your configuration:
+      ```env
+      PORT=5002
+      MONGO_URI=your_mongodb_connection_string
+      TOKEN_KEY=your_secret_jwt_key
+      ```
+    - Install server dependencies:
+      ```bash
+      npm install
+      ```
 
+4.  **Set up the Client:**
+    - Navigate to the `client` directory from the root:
+      ```bash
+      cd client
+      ```
+    - Install client dependencies:
+      ```bash
+      npm install
+      ```
+
+5.  **Set up the RTMP Server:**
+    - Navigate to the `rtmp-server` directory from the root:
+      ```bash
+      cd rtmp-server
+      ```
+    - Install RTMP server dependencies:
+      ```bash
+      npm install
+      ```
+
+### Running the Application
+
+1.  **Start the Backend and Frontend:**
+    From the root directory, run the `dev` script to start the Express server and the React client concurrently.
     ```bash
-    cd server
-    npm install
+    npm run dev
     ```
+    - React Client will be available at `http://localhost:3000`
+    - Express Server will be running on `http://localhost:5002`
 
-4. **Install client dependencies:**
-
+2.  **Start the RTMP Server:**
+    In a separate terminal, navigate to the `rtmp-server` directory and start the server.
     ```bash
-    cd ../client
-    npm install
+    cd rtmp-server
+    npm run dev
     ```
-
-5. **Install RTMP server dependencies:**
-
-    ```bash
-    cd ../rtmp-server
-    npm install
-    ```
-
-6. **Environment Variables:**
-
-    Create a `.env` file in the `server/` directory and add the following variables:
-
-    ```env
-    MONGO_URI=your_mongodb_connection_string
-    TOKEN_KEY=your_secret_jwt_token_key
-    PORT=5002
-    ```
-
-### Running the application
-
-You can run the client and server concurrently from the root directory:
-
-```bash
-npm run dev
-```
-
-This will start:
-
-* The React client on `http://localhost:3000`
-* The Express server on `http://localhost:5002`
-
-To start the RTMP server for streaming:
-
-```bash
-cd rtmp-server
-node index.js
-```
-
-The RTMP server will be running on port 1935.
+    - The RTMP server will listen on port `1935`.
+    - You can configure your streaming software (like OBS) to stream to `rtmp://localhost:1935/live` using the stream key from your account settings page.
