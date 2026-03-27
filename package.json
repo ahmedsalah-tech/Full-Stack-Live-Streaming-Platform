@@ -1,20 +1,20 @@
 {
-  "name": "twitch-clone",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "client": "cd client && npm run dev",
-    "server": "cd server && npm run dev",
-    "rtmp-server": "cd rtmp-server && npm run dev",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/node": "^25.5.0",
-    "concurrently": "^9.2.1"
-  }
+	"name": "twitch-clone",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"client": "cd client && npm run dev",
+		"server": "cd server && npm run dev",
+		"rtmp-server": "cd rtmp-server && npm start",
+		"dev": "concurrently \"npm run server\" \"npm run client\" \"npm run rtmp-server\""
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/node": "^25.5.0",
+		"concurrently": "^9.2.1"
+	}
 }
