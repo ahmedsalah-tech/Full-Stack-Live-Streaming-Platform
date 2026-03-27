@@ -13,5 +13,5 @@
         "skipLibCheck": true
     },
     "include": ["src/**/*"],
-    "exclude": ["node_modules", "dist", "client"]
+    "exclude": ["node_modules", "dist", "client", "rtmp-server"]
 }
