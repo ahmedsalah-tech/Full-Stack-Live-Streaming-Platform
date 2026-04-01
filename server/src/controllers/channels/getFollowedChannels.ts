@@ -11,12 +11,10 @@ export const getFollowedChannels = async (req: any, res: any) => {
     }
 
     return res.status(200).json({
-      followedChannels: user.followedChannels || [],
+      followedChannels: user.followedChannels,
     });
   } catch (err) {
     console.log(err);
-    return res
-      .status(500)
-      .send('Error occured when fetching the followed channels');
+    return res.status(500).send('Error fetching followed channels.');
   }
 };

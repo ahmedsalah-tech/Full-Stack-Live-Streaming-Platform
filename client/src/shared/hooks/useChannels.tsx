@@ -35,14 +35,10 @@ export const useChannels = () => {
     const followedChannelsData = await getFollowedChannels();
 
     if ('error' in followedChannelsData) {
-      toast.error(
+      return toast.error(
         followedChannelsData.exception?.response?.data?.message ||
           'Error occured when fetching the followed channels'
       );
-      return setChannels({
-        channels: channelsData.data.channels,
-        followedChannels: [],
-      });
     }
 
     setChannels({
