@@ -151,11 +151,13 @@ export type User = {
 };
 
 export type ChannelDetails = {
+  [x: string]: string;
   id: string;
   title: string;
   description: string;
   username: string;
   isOnline: boolean;
+  streamKey: string;
   followers?: User[];
 };
 
