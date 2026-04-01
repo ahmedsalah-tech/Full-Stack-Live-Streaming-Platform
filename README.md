@@ -16,7 +16,7 @@ This project is currently in development.
   - **Channel Settings:** Update channel title, description, and avatar.
   - **Password Management:** Change user account passwords.
   - **Stream Key:** View a unique stream key for use with streaming software.
-- **Real-time Streaming:** An integrated RTMP server using `node-media-server` to handle incoming live video feeds.
+- **Real-time Streaming:** (In Progress) An integrated RTMP server using `node-media-server` to handle incoming live video feeds.
 - **Live Chat:** (In Progress) A `socket.io` backend is set up to support real-time chat on channel pages.
 
 ## Tech Stack
