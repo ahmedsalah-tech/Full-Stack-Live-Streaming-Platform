@@ -1,4 +1,5 @@
 import type { Request, Response } from 'express';
+import axios from 'axios';
 import User from '../../models/User.ts';
 
 interface PopulatedChannel {
@@ -6,6 +7,15 @@ interface PopulatedChannel {
   title: string;
   avatarUrl: string;
   isActive: boolean;
+  streamKey: string;
+}
+
+interface StreamInfo {
+  publisher?: Record<string, unknown> | null;
+}
+
+interface StreamsApiResponse {
+  live?: Record<string, StreamInfo>;
 }
 
 interface PopulatedUser {
@@ -23,6 +33,12 @@ export const getChannels = async (req: Request, res: Response) => {
       }
     ).populate<{ channel: PopulatedChannel }>('channel');
 
+    const requestData = await axios.get<StreamsApiResponse>(
+      'http://localhost:8000/api/streams'
+    );
+
+    const activeStreams = requestData.data;
+
     const channels = users
       .filter((user) => user.channel && user.channel.isActive)
       .map((user) => {
@@ -31,7 +47,9 @@ export const getChannels = async (req: Request, res: Response) => {
           title: user.channel.title,
           avatarUrl: user.channel.avatarUrl,
           username: user.username,
-          isOnline: false,
+          isOnline: Object.keys(activeStreams.live ?? {}).includes(
+            user.channel.streamKey
+          ),
         };
       });
 
