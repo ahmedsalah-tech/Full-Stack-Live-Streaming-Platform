@@ -41,18 +41,7 @@ export const Register = ({ switchAuthHandler }: LoginProps) => {
   });
 
   const handleInputValueChange = (value: string, field: string) => {
-    setFormState((prevState) => ({
-      ...prevState,
-      [field]: {
-        ...prevState[field as 'email' | 'password'],
-        value,
-      },
-    }));
-  };
-
-  const handleInputValidationOnBlur = (value: string, field: string) => {
     let isValid = false;
-
     switch (field) {
       case 'email':
         isValid = validateEmail(value);
@@ -69,13 +58,29 @@ export const Register = ({ switchAuthHandler }: LoginProps) => {
       default:
         break;
     }
-
     setFormState((prevState) => ({
       ...prevState,
       [field]: {
-        ...prevState[field as 'email' | 'password'],
+        ...prevState[
+          field as 'email' | 'password' | 'username' | 'passwordConf'
+        ],
+        value,
         isValid,
-        showError: !isValid,
+      },
+    }));
+  };
+
+  const handleInputValidationOnBlur = (_value: string, field: string) => {
+    setFormState((prevState) => ({
+      ...prevState,
+      [field]: {
+        ...prevState[
+          field as 'email' | 'password' | 'username' | 'passwordConf'
+        ],
+        showError:
+          !prevState[
+            field as 'email' | 'password' | 'username' | 'passwordConf'
+          ].isValid,
       },
     }));
   };

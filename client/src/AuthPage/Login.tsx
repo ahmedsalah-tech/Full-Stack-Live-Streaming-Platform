@@ -27,18 +27,7 @@ export const Login = ({ switchAuthHandler }: LoginProps) => {
   });
 
   const handleInputValueChange = (value: string, field: string) => {
-    setFormState((prevState) => ({
-      ...prevState,
-      [field]: {
-        ...prevState[field as 'email' | 'password'],
-        value,
-      },
-    }));
-  };
-
-  const handleInputValidationOnBlur = (value: string, field: string) => {
     let isValid = false;
-
     switch (field) {
       case 'email':
         isValid = validateEmail(value);
@@ -49,13 +38,22 @@ export const Login = ({ switchAuthHandler }: LoginProps) => {
       default:
         break;
     }
-
     setFormState((prevState) => ({
       ...prevState,
       [field]: {
         ...prevState[field as 'email' | 'password'],
+        value,
         isValid,
-        showError: !isValid,
+      },
+    }));
+  };
+
+  const handleInputValidationOnBlur = (_value: string, field: string) => {
+    setFormState((prevState) => ({
+      ...prevState,
+      [field]: {
+        ...prevState[field as 'email' | 'password'],
+        showError: !prevState[field as 'email' | 'password'].isValid,
       },
     }));
   };
