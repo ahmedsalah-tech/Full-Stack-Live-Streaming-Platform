@@ -1,116 +1,181 @@
-# Twitch.tv Clone
+# Full Stack Live Streaming Platform
 
-[![Ask DeepWiki](https://devin.ai/assets/askdeepwiki.png)](https://deepwiki.com/ahmedsalah-tech/Twitch-tv-Clone)
+> A comprehensive, full-stack live streaming MVP demonstrating the complex architecture behind platforms like Twitch.
 
-This is a full-stack clone of Twitch.tv built with the MERN stack. The project aims to replicate core features of the popular streaming platform, including real-time video streaming, live chat, and user channel management.
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
 
-This project is currently in development.
+> [!IMPORTANT]
+> This project is currently in active development. Focus areas include finalizing the RTMP integration and socket.io live chat systems.
 
-## Features
+## 📸 Project Screenshots
 
-- **User Authentication:** Secure registration and login functionality using JWT for session management.
-- **Browse Channels:** View a grid of all active channels.
-- **Channel Viewing:** Watch streams, view channel descriptions, and see user information.
-- **Follow System:** Users can follow and unfollow their favorite channels.
+|                           Desktop Main Feed                           |                            Streamer Settings                             |                Live Channel (Stream + Chat)                 |
+| :-------------------------------------------------------------------: | :----------------------------------------------------------------------: | :---------------------------------------------------------: |
+|    ![Desktop View of Main Feed](./screenshots/Main-Dashboard.png)     | ![Streamer Dashboard with Stream Key](./screenshots/My-Account-Page.png) | ![Live Channel View](./screenshots/Channel-Stream-Page.png) |
+|                            **Login Page**                             |                            **Register Page**                             |                   **OBS Streaming Setup**                   |
+|              ![Login Page](./screenshots/Login-Page.png)              |            ![Register Page](./screenshots/Register-Page.png)             |        ![OBS Setup](./screenshots/OBS-Streaming.png)        |
+|                      **Online Status Indicator**                      |                                                                          |                                                             |
+| ![Online Status Indicator](./screenshots/Online-Status-Indicator.png) |                                                                          |                                                             |
+
+## 🏗️ Architecture
+
+This project utilizes a robust three-tier architecture designed for real-time video streaming and communication:
+
+1.  **Client (React & Vite):** A responsive, high-performance frontend application responsible for UI rendering, video playback, and real-time chat interactions.
+2.  **API Server (Node & Express):** The core backend handling RESTful operations, JWT-based user authentication, database interactions (MongoDB), and WebSocket (Socket.io) connections for live chat.
+3.  **RTMP Media Server (Node Media Server):** A dedicated live streaming server responsible for receiving the RTMP video ingest from broadcasters and distributing the stream.
+
+## 🗺️ Feature Roadmap
+
+### Completed
+- **User Authentication:** Secure registration and login using JWT.
+- **Browse Channels:** Dynamic grid displaying all active streaming channels.
+- **Channel Viewing:** Watch streams, view channel descriptions, and access user metadata.
+- **Follow System:** Users can subscribe/unsubscribe to their favorite channels.
 - **User Dashboard:**
   - **Channel Settings:** Update channel title, description, and avatar.
-  - **Password Management:** Change user account passwords.
-  - **Stream Key:** View a unique stream key for use with streaming software.
-- **Real-time Streaming:** (In Progress) An integrated RTMP server using `node-media-server` to handle incoming live video feeds.
-- **Live Chat:** (In Progress) A `socket.io` backend is set up to support real-time chat on channel pages.
+  - **Password Management:** Secure password modification.
+  - **Stream Key Management:** View and regenerate unique stream keys.
 
-## Tech Stack
+### 📍 In Progress
+- **Real-time Streaming (RTMP):** Integration with `node-media-server` to handle incoming live video feeds seamlessly.
+- **Live Chat (Socket.io):** Low-latency, real-time chat rooms tied to individual channel pages.
 
-- **Frontend:** React, Vite, TypeScript, React Router, Axios, React Hot Toast
-- **Backend:** Node.js, Express.js, TypeScript
-- **Database:** MongoDB with Mongoose
-- **Real-time Streaming:** Node Media Server (RTMP)
-- **Authentication:** JWT (JSON Web Tokens), bcrypt.js
-- **Real-time Communication:** Socket.io (for chat)
-- **Validation:** Joi
+## 🗄️ Database Schema
 
-## Getting Started
+The application uses MongoDB as its primary database, managed via Mongoose. The database is structured around three core schemas:
+
+### User (`User.ts`)
+Handles authentication and user-specific relationships.
+- `username` (String) - Display name of the user.
+- `email` (String, unique) - Unique email address for registration.
+- `password` (String) - Hashed password for security.
+- `channel` (ObjectId, Ref: `Channel`) - Reference to the user's broadcast channel.
+- `followedChannels` (Array of ObjectId, Ref: `Channel`) - List of channels the user follows.
+
+### Channel (`Channel.ts`)
+Stores streaming metadata, settings, and socket relationships.
+- `isActive` (Boolean, default: false) - Live status indicator.
+- `title` (String) - Stream title.
+- `description` (String) - Channel bio.
+- `avatarUrl` (String) - Profile image URL.
+- `streamKey` (String, default: UUID) - Unique identifier for RTMP ingested stream.
+- `messages` (Array of ObjectId, Ref: `Message`) - Linked chat history.
+
+### Message (`Message.ts`)
+Manages real-time chat data persistence.
+- `author` (String) - Name of the user sending the message.
+- `content` (String) - The text payload.
+- `date` (Date) - Timestamp of the message.
+
+## 🔌 API Documentation
+
+The RESTful API is built with Express.js. Protected routes require a JWT bearer token. Request validation is handled via Joi.
+
+### Authentication (`/api/auth`)
+- `POST /register` - Create a new user account.
+  - Payload: `{ username, email, password }`
+- `POST /login` - Authenticate an existing user.
+  - Payload: `{ email, password }`
+
+### Channels (`/api/channels`)
+- `GET /` - Retrieve a diverse list of broadcasting channels.
+- `GET /:channelId` - Retrieve active details and metadata for a specific channel.
+- `GET /followed` (Protected) - Retrieve a list of channels followed by the authenticated user.
+- `POST /follow` (Protected) - Follow or unfollow a channel.
+  - Payload: `{ channelId }`
+
+### Settings (`/api/settings`)
+- `GET /channel` (Protected) - Fetch current settings for the authenticated user's channel.
+- `PUT /channel` (Protected) - Update the authenticated user's channel metadata.
+  - Payload: `{ username, description, title, avatarUrl }`
+- `PATCH /password` (Protected) - Update the authenticated user's password.
+  - Payload: `{ password, newPassword }`
+
+## ⚙️ Installation
 
 ### Prerequisites
-
 - Node.js (v18 or later recommended)
 - npm (v8 or later)
-- A running MongoDB instance (local or cloud-based)
+- A running MongoDB instance (local or Atlas)
 
-### Installation & Setup
+### 1. Root Setup
+Clone the repository and install root dependencies (which includes `concurrently` for running dev servers).
 
-1.  **Clone the repository:**
+```bash
+git clone https://github.com/ahmedsalah-tech/Twitch-tv-Clone.git
+cd Twitch-tv-Clone
+npm install
+```
 
-    ```bash
-    git clone https://github.com/ahmedsalah-tech/Twitch-tv-Clone.git
-    cd Twitch-tv-Clone
-    ```
+### 2. API Server & Database Setup
+Set up the Express backend and connect your database. You can use either a **Local MongoDB Instance** or a **Managed MongoDB Atlas** cluster.
+- **Local:** Ensure your local MongoDB server is running. Your connection string will typically be `mongodb://127.0.0.1:27017/twitch-clone`.
+- **Atlas:** Create a free cluster, whitelist your IP address, create a database user, and copy the provided `mongodb+srv://...` connection string.
 
-2.  **Install Root Dependencies:**
-    This installs `concurrently` to run multiple services at once.
+```bash
+cd server
+cp .env.example .env
+# Edit .env with your PORT, MONGO_URI (using one of the strings above), and TOKEN_KEY
+npm install
+```
 
-    ```bash
-    npm install
-    ```
+### 3. Client Frontend
+Set up the React application.
 
-3.  **Set up the Server:**
-    - Navigate to the `server` directory:
-      ```bash
-      cd server
-      ```
-    - Create a `.env` file by copying the example:
-      ```bash
-      cp .env.example .env
-      ```
-    - Edit the `.env` file with your configuration:
-      ```env
-      PORT=5002
-      MONGO_URI=your_mongodb_connection_string
-      TOKEN_KEY=your_secret_jwt_key
-      ```
-    - Install server dependencies:
-      ```bash
-      npm install
-      ```
+```bash
+# From the root directory
+cd client
+npm install
+```
 
-4.  **Set up the Client:**
-    - Navigate to the `client` directory from the root:
-      ```bash
-      cd client
-      ```
-    - Install client dependencies:
-      ```bash
-      npm install
-      ```
+### 4. RTMP Media Server
+Set up the streaming server.
 
-5.  **Set up the RTMP Server:**
-    - Navigate to the `rtmp-server` directory from the root:
-      ```bash
-      cd rtmp-server
-      ```
-    - Install RTMP server dependencies:
-      ```bash
-      npm install
-      ```
+```bash
+# From the root directory
+cd rtmp-server
+npm install
+```
 
-### Running the Application
+## 🚀 Running the Application
 
-1.  **Start the Backend and Frontend:**
-    From the root directory, run the `dev` script to start the Express server and the React client concurrently.
+1. **Start the API Server and Client:**
+   From the root directory, run the `dev` script to spin up both the Express API and React frontend concurrently.
+   ```bash
+   npm run dev
+   ```
+   - Client: `http://localhost:3000`
+   - Server: `http://localhost:5002`
 
-    ```bash
-    npm run dev
-    ```
+2. **Start the RTMP Media Server:**
+   In a separate terminal window, start the RTMP ingest server:
+   ```bash
+   cd rtmp-server
+   npm run dev
+   ```
+   - RTMP Server listening on port `1935`.
 
-    - React Client will be available at `http://localhost:3000`
-    - Express Server will be running on `http://localhost:5002`
+## 📡 Streaming Guide (How to Stream)
 
-2.  **Start the RTMP Server:**
-    In a separate terminal, navigate to the `rtmp-server` directory and start the server.
-    ```bash
-    cd rtmp-server
-    npm run dev
-    ```
+To broadcast your live stream to the platform, you will need streaming software like [OBS Studio](https://obsproject.com/).
 
-    - The RTMP server will listen on port `1935`.
-    - You can configure your streaming software (like OBS) to stream to `rtmp://localhost:1935/live` using the stream key from your account settings page.
+1. Log in to your account and navigate to your **Streamer Dashboard** (My Account).
+2. **Important:** Add an **Avatar URL** in your channel settings and save the changes. Your channel will *only* become visible on the main dashboard to other users if you provide an avatar.
+3. From the **My Account** page, locate and copy your unique **Stream Key**.
+4. Open **OBS Studio** and navigate to `File` > `Settings` > `Stream`.
+5. Select `Custom...` from the Service dropdown.
+6. In the **Server** field, enter the RTMP URL: `rtmp://localhost:1935/live`
+7. In the **Stream Key** field, paste the key copied from your dashboard.
+8. Click **Start Streaming** in OBS!
+
+![OBS Streaming Setup](./screenshots/OBS-Streaming.png)
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+This project is free and open-source software. You are permitted to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the software, provided that proper credit is given to the original author ([ahmedsalah-tech](https://github.com/ahmedsalah-tech)).

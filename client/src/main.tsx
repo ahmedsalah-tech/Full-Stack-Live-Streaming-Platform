@@ -11,6 +11,7 @@ createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <App>
       <Routes>
+        <Route path="/" element={<Navigate to="/channels" replace />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/*" element={<DashboardPage />} />
       </Routes>
