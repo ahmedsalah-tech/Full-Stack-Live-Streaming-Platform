@@ -2,8 +2,9 @@ import User from '../../models/User.ts';
 import Channel from '../../models/Channel.ts';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import type { Request, Response } from 'express';
 
-export const postRegister = async (req: any, res: any) => {
+export const postRegister = async (req: Request, res: Response) => {
   try {
     const { username, email, password } = req.body;
     const userExists = await User.exists({ email });

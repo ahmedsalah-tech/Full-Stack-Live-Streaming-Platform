@@ -1,4 +1,6 @@
 import User from '../../models/User.ts';
+import type { Response } from 'express';
+import type { AuthRequest } from '../../middlewares/auth.ts';
 
 interface ChannelDetails {
   _id: string;
@@ -13,7 +15,7 @@ interface UserDetails {
   channel: ChannelDetails;
 }
 
-export const getChannelSettings = async (req: any, res: any) => {
+export const getChannelSettings = async (req: AuthRequest, res: Response) => {
   try {
     const { userId } = req.user;
 

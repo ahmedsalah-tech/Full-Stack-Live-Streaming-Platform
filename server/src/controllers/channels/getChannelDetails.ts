@@ -1,6 +1,7 @@
 import axios from 'axios';
 import User from '../../models/User.ts';
 import Channel from '../../models/Channel.ts';
+import type { Request, Response } from 'express';
 
 interface StreamInfo {
   publisher?: Record<string, unknown> | null;
@@ -10,7 +11,7 @@ interface StreamsApiResponse {
   live?: Record<string, StreamInfo>;
 }
 
-export const getChannelDetails = async (req: any, res: any) => {
+export const getChannelDetails = async (req: Request, res: Response) => {
   try {
     const { channelId } = req.params;
 

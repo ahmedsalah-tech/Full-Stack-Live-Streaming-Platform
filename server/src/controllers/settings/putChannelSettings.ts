@@ -1,7 +1,9 @@
 import User from '../../models/User.ts';
 import Channel from '../../models/Channel.ts';
+import type { AuthRequest } from '../../middlewares/auth.ts';
+import type { Response } from 'express';
 
-export const putChannelSettings = async (req: any, res: any) => {
+export const putChannelSettings = async (req: AuthRequest, res: Response) => {
   try {
     const { userId } = req.user;
 

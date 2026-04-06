@@ -1,6 +1,8 @@
 import User from '../../models/User.ts';
+import type { Response } from 'express';
+import type { AuthRequest } from '../../middlewares/auth.ts';
 
-export const postFollowChannel = async (req: any, res: any) => {
+export const postFollowChannel = async (req: AuthRequest, res: Response) => {
   try {
     const { userId } = req.user;
 

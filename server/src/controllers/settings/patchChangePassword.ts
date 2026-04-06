@@ -1,7 +1,9 @@
 import bcrypt from 'bcryptjs';
 import User from '../../models/User.ts';
+import type { AuthRequest } from '../../middlewares/auth.ts';
+import type { Response } from 'express';
 
-export const patchChangePassword = async (req: any, res: any) => {
+export const patchChangePassword = async (req: AuthRequest, res: Response) => {
   try {
     const { userId } = req.user;
 

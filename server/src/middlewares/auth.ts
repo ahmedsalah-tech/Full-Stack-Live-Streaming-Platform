@@ -3,7 +3,7 @@ import type { Request, Response, NextFunction } from 'express';
 
 const config = process.env;
 
-interface AuthRequest extends Request {
+export interface AuthRequest extends Request {
   user?: any;
 }
 
