@@ -14,7 +14,7 @@
 
 |                           Desktop Main Feed                           |                            Streamer Settings                             |                Live Channel (Stream + Chat)                 |
 | :-------------------------------------------------------------------: | :----------------------------------------------------------------------: | :---------------------------------------------------------: |
-|    ![Desktop View of Main Feed](./assets/main-dashboard.png)     | ![Streamer Dashboard with Stream Key](./assets/my-account-page.png) | ![Live Channel View](./assets/channel-streaming-page.png) |
+|    ![Desktop View of Main Feed](./assets/main-dashboard.png)     | ![Streamer Dashboard with Stream Key](./assets/my-account-page.png) | ![Live Channel View](./assets/test.webp) |
 |                            **Login Page**                             |                            **Register Page**                             |                   **OBS Streaming Setup**                   |
 |              ![Login Page](./assets/login-page.png)              |            ![Register Page](./assets/register-page.png)             |        ![OBS Setup](./assets/obs-streaming.png)        |
 |                      **Online Status Indicator**                      |                                                                          |                                                             |
