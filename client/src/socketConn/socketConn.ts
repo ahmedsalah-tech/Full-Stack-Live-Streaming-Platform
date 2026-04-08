@@ -5,7 +5,8 @@ let socket: Socket;
 export const getSocket = () => socket;
 
 export const connectWithSocketServer = () => {
-  socket = io('http://localhost:5002');
+  const socketUrl = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5002';
+  socket = io(socketUrl);
 
   socket.on('connect', () => {
     console.log('successfully connected with socket.io server');
@@ -13,9 +14,9 @@ export const connectWithSocketServer = () => {
   });
 
   socket.on('chat-history', (chatHistory) => {
-    console.log(chatHistory)
-    console.log('chat-history-came-from-the-server')
-  })
+    console.log(chatHistory);
+    console.log('chat-history-came-from-the-server');
+  });
 };
 
 export const getChatHistory = (channelId: string) => {
